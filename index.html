@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-image: url("https://wallpaperaccess.com/full/187161.jpg");
+        }
+        #calculator{
+            background-color: antiquewhite; height: 600px; width: 40%; margin: auto; border-radius: 10%;
+        }
+        #parent{
+            height: 500px; width: 70%; display: grid; grid-template-columns:repeat(4,1fr); margin: auto; justify-items: center;
+        }
+        .child{
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px; text-align: center; width: 70%; height: 60px; border-radius: 20%;
+            padding-top: 20px; box-sizing: border-box;
+        }
+        h1{
+            color: rgb(25, 179, 179);text-align: center;
+        }
+        div:nth-child(14){
+            background-color:red; color: white;
+        }
+        .s{
+            grid-column: 1 / 5; height: 80px; margin: auto;
+        }
+        .b{
+            background-color: black;color: white;
+        }
+        #display1{
+             color: red; width: 100%;
+        }
+        
+        /* Medium devices such as tablets (768px and up) */
+        @media all and (max-width:750px) and (min-width:521px) {
+        #calculator{
+            width: 80%;+
+        }
+        }
+
+        /* Small devices such as large phones (640px and up) */
+        @media all and (max-width:522px) and (min-width:36px) {
+        #calculator{
+            width: 90%;
+        }
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="calculator">
+        <h1>Masai calculator</h1>
+        <div id="parent">
+            <div class="child s">
+                 <p id="display1"> first click on number button</p>
+            </div>
+            <div class="child num">1</div>
+            <div class="child num">2</div>
+            <div class="child num">3</div>
+            <div class="child b operator">+</div>
+            <div class="child num">4</div>
+            <div class="child num">5</div>
+            <div class="child num">6</div>
+            <div class="child b operator">-</div>
+            <div class="child num">7</div>
+            <div class="child num">8</div>
+            <div class="child num">9</div>
+            <div class="child b operator">x</div>
+            <div class="child" id="clear">C</div>
+            <div class="child num">0</div>
+            <div class="child b" id="equal">=</div>
+            <div class="child b operator">/</div>
+        </div>
+    </div>
+</body>
+</html>
+<script>
+    let numberBtn = document.getElementsByClassName('num')
+    let display = document.getElementById('display1')
+    let firstNumber = ''
+    let secondNumber = ''
+    let isFirstNumber = true
+
+    for(let i = 0; i < numberBtn.length; i++){
+        numberBtn[i].addEventListener('click',function(){
+            if(isFirstNumber == true){
+                firstNumber += numberBtn[i].innerText
+                display.innerText = firstNumber
+            }
+            else{
+                secondNumber += numberBtn[i].innerText
+                display.innerText = `${firstNumber}  ${opt}  ${secondNumber}`
+
+            }
+        })
+    }
+    let operators = document.getElementsByClassName('operator')
+    let opt = ''
+    for(let i = 0; i < operators.length; i++){
+        operators[i].addEventListener('click',function(){
+            isFirstNumber = false
+            opt = operators[i].innerText
+            display.innerText = `${firstNumber}  ${opt}`
+
+        })
+    }
+    function calculate(firstNumber,secondNumber,opt){
+        switch(opt){
+            case '+' : return (Number(firstNumber) + Number(secondNumber))
+            case '-' : return (Number(firstNumber) - Number(secondNumber))
+            case '/' : return (Number(firstNumber) / Number(secondNumber))
+            case 'x' : return (Number(firstNumber) * Number(secondNumber))
+        }
+    }
+    let equal = document.getElementById('equal')
+    equal.addEventListener('click',function(){
+        display.innerText = `${firstNumber}  ${opt} ${secondNumber}  =  ${calculate(firstNumber,secondNumber,opt)}`
+        firstNumber = calculate(firstNumber, secondNumber, opt).toString()
+        secondNumber = ''
+        opt = ''
+        isFirstNumber = true
+    })
+
+    let clear = document.getElementById('clear')
+    clear.addEventListener('click',function(){
+        display.innerText = 'first click on number button'
+        firstNumber = ''
+        secondNumber = ''
+        opt = ''
+    })
+
+
+</script>
